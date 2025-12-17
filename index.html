@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0b1121" />
+    
+    <!-- PWA Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="TechyPrint">
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- SEO & Social Sharing -->
+    <title>TechyPrint 3D | Legacy Store</title>
+    <meta name="description" content="Loja oficial TechyPrint. Impressão 3D de alta qualidade, decoração e acessórios.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              // Legacy Blue Palette (Deep Electric Blue)
+              brand: {
+                50: '#eff6ff',
+                100: '#dbeafe',
+                200: '#bfdbfe',
+                300: '#93c5fd',
+                400: '#60a5fa',
+                500: '#3b82f6', // Standard Blue
+                600: '#2563eb', // Legacy Primary
+                700: '#1d4ed8',
+                800: '#1e40af',
+                900: '#1e3a8a',
+                950: '#172554',
+              },
+              slate: {
+                850: '#151f32', // Custom dark background tone
+                900: '#0f172a',
+                950: '#020617', 
+              }
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out forwards',
+              'slide-up': 'slideUp 0.5s ease-out forwards',
+              'blob': 'blob 10s infinite',
+              // New Animations for Cart
+              'package-drop': 'packageDrop 0.6s cubic-bezier(0.5, 0, 0.75, 0) forwards',
+              'cart-impact': 'cartImpact 0.4s ease-out forwards 0.5s', // Starts when package hits
+              'cart-exit': 'cartExit 0.8s ease-in forwards 0.9s', // Waits for impact to finish
+              'speed-lines': 'speedLines 0.4s ease-out forwards 1.0s',
+            },
+            keyframes: {
+              fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+              slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              },
+              // Animation Logic:
+              // 0ms: Start
+              // 0-500ms: Package falls & rotates
+              // 500ms: Impact happens
+              // 500-900ms: Cart squashes & recovers
+              // 900ms: Cart anticipates (backs up)
+              // 1000ms+: Cart zooms out
+              packageDrop: {
+                '0%': { transform: 'translateY(-40px) rotate(-45deg)', opacity: '0' },
+                '70%': { opacity: '1' },
+                '100%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' }
+              },
+              cartImpact: {
+                '0%': { transform: 'scale(1) translateY(0)' },
+                '25%': { transform: 'scale(1.15, 0.75) translateY(3px)' }, /* Squash */
+                '50%': { transform: 'scale(0.9, 1.05) translateY(-2px)' }, /* Rebound */
+                '75%': { transform: 'scale(1.02, 0.98) translateY(0)' },
+                '100%': { transform: 'scale(1) translateY(0)' }
+              },
+              cartExit: {
+                '0%': { transform: 'translateX(0)' },
+                '30%': { transform: 'translateX(-10px) rotate(-5deg)' }, /* Wind up / Anticipation */
+                '100%': { transform: 'translateX(200px) rotate(5deg)', opacity: '0' } /* Zoom */
+              },
+              speedLines: {
+                '0%': { width: '0', opacity: '0' },
+                '50%': { width: '40px', opacity: '1' },
+                '100%': { width: '0', opacity: '0', transform: 'translateX(20px)' }
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; background-color: #020617; color: #f8fafc; }
+      
+      /* Custom Scrollbar Dark */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: #0f172a; }
+      ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      .glass-panel {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(59, 130, 246, 0.15);
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "vite": "https://esm.sh/vite@^7.2.7",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "path": "https://esm.sh/path@^0.12.7",
+    "body-parser": "https://esm.sh/body-parser@^2.2.1",
+    "express": "https://esm.sh/express@^5.2.1",
+    "sqlite3": "https://esm.sh/sqlite3@^5.1.7",
+    "url": "https://esm.sh/url@^0.11.4",
+    "cors": "https://esm.sh/cors@^2.8.5",
+    "os": "https://esm.sh/os@^0.1.2"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./service-worker.js')
+            .catch(registrationError => console.log('SW failed: ', registrationError));
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "id": "techyprint-app-v1",
+  "short_name": "TechyPrint",
+  "name": "TechyPrint 3D Store",
+  "description": "Loja Cyberpunk de gadgets impressos em 3D. IA integrada e Design Paramétrico.",
+  "categories": ["shopping", "technology", "productivity"],
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2000/2000213.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2000/2000213.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://images.unsplash.com/photo-1631551381283-d97607a9988a?q=80&w=1080&auto=format&fit=crop",
+      "sizes": "1080x1920",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Catálogo Mobile"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1615494937748-9fdb96ef278b?q=80&w=1920&auto=format&fit=crop",
+      "sizes": "1920x1080",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Laboratório Desktop"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#020617",
+  "background_color": "#020617"
+}
