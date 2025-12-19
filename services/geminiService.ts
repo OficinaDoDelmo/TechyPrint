@@ -6,10 +6,15 @@ let chatSession: Chat | null = null;
 
 const getAiClient = () => {
   const apiKey = process.env.API_KEY;
+  
   if (!apiKey) {
     console.error("ERRO CRÍTICO: Variável de ambiente API_KEY não encontrada no sistema.");
     throw new Error("API Key missing");
   }
+  
+  // Log silencioso apenas para desenvolvedores (não vaza a chave inteira por segurança)
+  console.debug("IA Inicializada com chave terminada em:", apiKey.substring(apiKey.length - 4));
+  
   return new GoogleGenAI({ apiKey });
 };
 
