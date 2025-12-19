@@ -5,17 +5,18 @@ import { ChatMessage } from "../types";
 let chatSession: Chat | null = null;
 
 const getAiClient = () => {
-  if (!process.env.API_KEY) {
-    console.error("API_KEY is missing!");
-    throw new Error("API Key not found");
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    console.error("ERRO CRÍTICO: Variável de ambiente API_KEY não encontrada no sistema.");
+    throw new Error("API Key missing");
   }
-  return new GoogleGenAI({ apiKey: process.env.API_KEY });
+  return new GoogleGenAI({ apiKey });
 };
 
 export const initializeChat = (): Chat => {
   const ai = getAiClient();
   chatSession = ai.chats.create({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3-flash-preview',
     config: {
       systemInstruction: SYSTEM_INSTRUCTION,
       temperature: 0.7,
@@ -31,21 +32,26 @@ export const sendMessageToGemini = async (message: string): Promise<string> => {
     }
     
     if (!chatSession) {
-        throw new Error("Failed to initialize chat session");
+        throw new Error("Não foi possível iniciar a sessão de chat.");
     }
 
     const response = await chatSession.sendMessage({ message });
-    return response.text || "Desculpe, tive um problema ao processar sua resposta.";
+    return response.text || "Desculpe, não consegui processar essa informação.";
   } catch (error) {
-    console.error("Error sending message to Gemini:", error);
-    return "Desculpe, estou fora do ar momentaneamente. Tente novamente em instantes.";
+    console.error("Erro na comunicação com Gemini:", error);
+    // Tenta reinicializar em caso de erro de sessão expirada ou nula
+    try {
+      chatSession = null;
+      return "Tive um pequeno soluço na conexão, mas estou de volta. Pode repetir?";
+    } catch {
+      return "Estou temporariamente indisponível. Verifique se a API_KEY está configurada no servidor.";
+    }
   }
 };
 
 export const summarizeConversation = async (history: ChatMessage[]): Promise<string> => {
   try {
     const ai = getAiClient();
-    // Convertemos o histórico para texto simples
     const conversationText = history
       .map(msg => `${msg.role === 'user' ? 'Cliente' : 'Bot'}: ${msg.text}`)
       .join('\n');
@@ -65,13 +71,13 @@ export const summarizeConversation = async (history: ChatMessage[]): Promise<str
     `;
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3-flash-preview',
         contents: prompt
     });
 
-    return response.text || "Não foi possível gerar um resumo.";
+    return response.text || "Resumo não disponível.";
   } catch (error) {
-    console.error("Erro ao resumir conversa:", error);
+    console.error("Erro ao gerar resumo:", error);
     return "Erro ao processar resumo automático.";
   }
 };

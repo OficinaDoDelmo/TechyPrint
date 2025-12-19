@@ -1,5 +1,6 @@
 {
   "name": "TechyPrint 3D",
   "description": "Loja Cyberpunk de gadgets impressos em 3D. Manufatura aditiva, design futurista e assistente neural integrado.",
+  "image": "https://images.unsplash.com/photo-1615494937748-9fdb96ef278b?q=80&w=1200&h=630&fit=crop",
   "requestFramePermissions": []
 }
